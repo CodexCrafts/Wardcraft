@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "wardcraft:block_ward_animal", "y": 180},
+        "facing=south": { "model": "wardcraft:block_ward_animal", "y": 0},
+        "facing=west":  { "model": "wardcraft:block_ward_animal", "y": 90},
+        "facing=east":  { "model": "wardcraft:block_ward_animal", "y": 270}
+    }
+}

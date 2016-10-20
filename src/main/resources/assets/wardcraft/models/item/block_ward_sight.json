@@ -1,0 +1,6 @@
+{
+    "parent":"wardcraft:item/standard_item",
+    "textures": {
+        "layer0":"wardcraft:blocks/block_ward_sight"
+    }
+}

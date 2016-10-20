@@ -1,6 +1,7 @@
 package com.codexcrafts.wardcraft.block;
 
 import com.codexcrafts.wardcraft.WardcraftMain;
+import com.codexcrafts.wardcraft.block.ward.BasicWard;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -13,6 +14,11 @@ public class BlockRenderRegistry {
 
 	public static void registerBlockRenderer() {
 		reg(BlockRegistry.debugBlock);
+		//reg(BlockRegistry.testWardBlock);
+		
+		for(String ward : BlockRegistry.wards.keySet()){
+			reg(BlockRegistry.wards.get(ward));
+		}
 	}
 
 	public static void reg(Block block) {
