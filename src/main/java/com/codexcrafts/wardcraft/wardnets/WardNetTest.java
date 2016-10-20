@@ -34,4 +34,9 @@ public class WardNetTest implements IWardNet {
 		System.out.println("Updating wardnet");
 	}
 
+	@Override
+	public int getUpdateCost() {
+		return 0;
+	}
+
 }

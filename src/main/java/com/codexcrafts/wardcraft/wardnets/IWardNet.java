@@ -11,5 +11,6 @@ public interface IWardNet {
 	
 	public List<BasicWard> getCorners();
 	public void onUpdate(World world, BlockPos pos, int power);
+	public int getUpdateCost();
 
 }

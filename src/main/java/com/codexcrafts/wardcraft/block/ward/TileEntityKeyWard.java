@@ -16,6 +16,7 @@ public class TileEntityKeyWard extends TileEntity implements ITickable {
 	private int power;
 	private Block corner1, corner2, corner3, corner4;
 	private int counter = 0;
+	private int charge;
 
 	public TileEntityKeyWard() {
 		counter = 0;
@@ -36,9 +37,10 @@ public class TileEntityKeyWard extends TileEntity implements ITickable {
 			if (allCorners) {
 				BasicWard[] corners = { (BasicWard) corner1, (BasicWard) corner2, (BasicWard) corner3,
 						(BasicWard) corner4 };
-				IWardNet something = WardNets.getWardNet(Arrays.asList(corners));
-				if (something != null) {
-					something.onUpdate(worldObj, pos, power);
+				IWardNet wardNet = WardNets.getWardNet(Arrays.asList(corners));
+				if (wardNet != null && charge >= wardNet.getUpdateCost()) {
+					wardNet.onUpdate(worldObj, pos, power);
+					charge -= wardNet.getUpdateCost();
 				}
 			}
 			counter = 0;
@@ -60,6 +62,10 @@ public class TileEntityKeyWard extends TileEntity implements ITickable {
 			}
 		}
 		return count;
+	}
+	
+	public void addCharge(int amount){
+		this.charge += amount;
 	}
 
 }
