@@ -14,11 +14,10 @@ public class BlockRenderRegistry {
 
 	public static void registerBlockRenderer() {
 		reg(BlockRegistry.debugBlock);
-		//reg(BlockRegistry.testWardBlock);
-		
 		for(String ward : BlockRegistry.wards.keySet()){
 			reg(BlockRegistry.wards.get(ward));
 		}
+		reg(BlockRegistry.key);
 	}
 
 	public static void reg(Block block) {
