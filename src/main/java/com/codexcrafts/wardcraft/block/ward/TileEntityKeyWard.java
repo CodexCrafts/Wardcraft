@@ -5,6 +5,7 @@ import com.codexcrafts.wardcraft.wardnets.IWardNet;
 import com.codexcrafts.wardcraft.wardnets.WardNets;
 
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +25,7 @@ public class TileEntityKeyWard extends TileEntity implements ITickable {
 
 	@Override
 	public void update() {
-		if (counter > 20) {
+		if (counter > 20 && !worldObj.isRemote) {
 			power = (getPower(worldObj, pos) * 4) + 4;
 			Block corner1 = worldObj.getBlockState(pos.add(power, 0, power)).getBlock();
 			Block corner2 = worldObj.getBlockState(pos.add(-power, 0, power)).getBlock();
@@ -44,6 +45,7 @@ public class TileEntityKeyWard extends TileEntity implements ITickable {
 				}
 			}
 			counter = 0;
+			System.out.println(charge);
 		} else {
 			counter++;
 		}
@@ -66,6 +68,18 @@ public class TileEntityKeyWard extends TileEntity implements ITickable {
 	
 	public void addCharge(int amount){
 		this.charge += amount;
+	}
+	
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		compound.setInteger("charge", charge);
+		return super.writeToNBT(compound);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+		this.charge = compound.getInteger("charge");
 	}
 
 }

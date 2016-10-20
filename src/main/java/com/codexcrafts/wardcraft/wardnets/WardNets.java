@@ -14,6 +14,9 @@ public class WardNets {
 		HashMap<List<BasicWard>, IWardNet> tempWardNets = new HashMap<List<BasicWard>, IWardNet>();
 		IWardNet testWardNet = new WardNetTest();
 		tempWardNets.put(testWardNet.getCorners(), testWardNet);
+		
+		IWardNet generatorWardNet = new WardNetGenerator();
+		tempWardNets.put(generatorWardNet.getCorners(), generatorWardNet);
 		return tempWardNets;
 	}
 	
