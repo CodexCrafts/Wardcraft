@@ -164,23 +164,6 @@ public class TileEntityKeyWard extends TileEntity implements ITickable {
 			this.target = new BlockPos(coords[0], coords[1], coords[2]);
 		}
 	}
-
-//	@SideOnly(Side.SERVER)
-//	@Override
-//	public SPacketUpdateTileEntity getUpdatePacket() {
-//		if (target != null) {
-//			NBTTagCompound comp = new NBTTagCompound();
-//			return new SPacketUpdateTileEntity(pos, getBlockMetadata(), writeToNBT(comp));
-//		}
-//		return super.getUpdatePacket();
-//	}
-//	
-//	@SideOnly(Side.CLIENT)
-//	@Override
-//	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-//		NBTTagCompound comp = pkt.getNbtCompound();
-//		readFromNBT(comp);
-//	}
 	
 	@Override
 	public NBTTagCompound getUpdateTag() {
