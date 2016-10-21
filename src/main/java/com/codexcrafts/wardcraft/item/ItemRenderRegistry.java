@@ -14,6 +14,7 @@ public class ItemRenderRegistry {
 	public static void registerItemRenderer() {
 		reg(ItemRegistry.debugItem);
 		reg(ItemRegistry.warded_glasses);
+		reg(ItemRegistry.warded_lense);
 	}
 
 	public static void reg(Item item) {

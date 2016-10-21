@@ -1,0 +1,6 @@
+{
+    "parent":"wardcraft:item/standard_item",
+    "textures": {
+        "layer0":"wardcraft:items/item_warded_lense"
+    }
+}
