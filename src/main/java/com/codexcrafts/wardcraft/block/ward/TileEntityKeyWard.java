@@ -1,12 +1,14 @@
 package com.codexcrafts.wardcraft.block.ward;
 
 import com.codexcrafts.wardcraft.block.BlockRegistry;
+import com.codexcrafts.wardcraft.item.ItemRegistry;
 import com.codexcrafts.wardcraft.particle.ParticleWardNet;
 import com.codexcrafts.wardcraft.wardnets.IWardNet;
 import com.codexcrafts.wardcraft.wardnets.WardNets;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
@@ -49,34 +51,45 @@ public class TileEntityKeyWard extends TileEntity implements ITickable {
 					}
 				}
 				counter = 0;
-				System.out.println(charge);
 			} else {
-				int particleRange = power * 2 + 1;
-				for (int i = 0; i < 1; i++) {
-					randomlySpawnParticlesAtCorner(pos.add(power, 0, power), 1, particleRange*-1 + 1, 0, particleRange, 0.3f);
-					randomlySpawnParticlesAtCorner(pos.add(power, 0, power), particleRange*-1 + 1, 1, particleRange, 0, 0.3f);
-					randomlySpawnParticlesAtCorner(pos.add(power*-1, 0, power*-1), 0, particleRange, 0, particleRange*-1, 0.3f);
-					randomlySpawnParticlesAtCorner(pos.add(power*-1, 0, power*-1), particleRange, 0, particleRange*-1, 0, 0.3f);
-					randomlySpawnParticlesAtCorner(pos.add(power*-1, 0, power), 0, particleRange*-1 + 1, 0, particleRange, 0.3f);
-					randomlySpawnParticlesAtCorner(pos.add(power*-1, 0, power), particleRange, 1, particleRange*-1, 0, 0.3f);
-					randomlySpawnParticlesAtCorner(pos.add(power, 0, power*-1), particleRange*-1 + 1, 0, particleRange, 0, 0.3f);
-					randomlySpawnParticlesAtCorner(pos.add(power, 0, power*-1), 1, particleRange, 0, particleRange*-1, 0.3f);
+				ItemStack helmetArmor = Minecraft.getMinecraft().thePlayer.inventory.armorItemInSlot(3);
+				if (helmetArmor != null && helmetArmor.getItem().equals(ItemRegistry.warded_glasses)) {
+					int particleRange = power * 2 + 1;
+					for (int i = 0; i < 1; i++) {
+						randomlySpawnParticlesAtCorner(pos.add(power, 0, power), 1, particleRange * -1 + 1, 0,
+								particleRange, 0.3f);
+						randomlySpawnParticlesAtCorner(pos.add(power, 0, power), particleRange * -1 + 1, 1,
+								particleRange, 0, 0.3f);
+						randomlySpawnParticlesAtCorner(pos.add(power * -1, 0, power * -1), 0, particleRange, 0,
+								particleRange * -1, 0.3f);
+						randomlySpawnParticlesAtCorner(pos.add(power * -1, 0, power * -1), particleRange, 0,
+								particleRange * -1, 0, 0.3f);
+						randomlySpawnParticlesAtCorner(pos.add(power * -1, 0, power), 0, particleRange * -1 + 1, 0,
+								particleRange, 0.3f);
+						randomlySpawnParticlesAtCorner(pos.add(power * -1, 0, power), particleRange, 1,
+								particleRange * -1, 0, 0.3f);
+						randomlySpawnParticlesAtCorner(pos.add(power, 0, power * -1), particleRange * -1 + 1, 0,
+								particleRange, 0, 0.3f);
+						randomlySpawnParticlesAtCorner(pos.add(power, 0, power * -1), 1, particleRange, 0,
+								particleRange * -1, 0.3f);
+					}
 				}
 			}
 		} else {
 			counter++;
 		}
 	}
-	
-	private void randomlySpawnParticlesAtCorner(BlockPos pos1, int xOffset, int zOffset, int xSpeed, int zSpeed, float chance){
-		if(chance > worldObj.rand.nextFloat()){
+
+	private void randomlySpawnParticlesAtCorner(BlockPos pos1, int xOffset, int zOffset, int xSpeed, int zSpeed,
+			float chance) {
+		if (chance > worldObj.rand.nextFloat()) {
 			spawnParticlesAtCorner(pos1, xOffset, zOffset, xSpeed, zSpeed);
 		}
 	}
 
 	private void spawnParticlesAtCorner(BlockPos pos1, int xOffset, int zOffset, int xSpeed, int zSpeed) {
-		ParticleWardNet particle = new ParticleWardNet(worldObj, pos1.getX()+xOffset,
-				pos1.getY() + worldObj.rand.nextFloat(), pos1.getZ()+zOffset, xSpeed, 0, zSpeed);
+		ParticleWardNet particle = new ParticleWardNet(worldObj, pos1.getX() + xOffset,
+				pos1.getY() + worldObj.rand.nextFloat(), pos1.getZ() + zOffset, xSpeed, 0, zSpeed);
 		Minecraft.getMinecraft().effectRenderer.addEffect(particle);
 
 	}
