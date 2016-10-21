@@ -1,4 +1,4 @@
-package com.codexcrafts.wardcraft.wardnets;
+package com.codexcrafts.wardcraft.wardnets.consumers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +7,7 @@ import java.util.List;
 import com.codexcrafts.wardcraft.block.BlockRegistry;
 import com.codexcrafts.wardcraft.block.ward.BasicWard;
 import com.codexcrafts.wardcraft.block.ward.EnumWard;
+import com.codexcrafts.wardcraft.wardnets.IWardNet;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

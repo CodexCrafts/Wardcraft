@@ -5,6 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.codexcrafts.wardcraft.block.ward.BasicWard;
+import com.codexcrafts.wardcraft.block.ward.EnumWard;
+import com.codexcrafts.wardcraft.wardnets.consumers.WardNetTest;
+import com.codexcrafts.wardcraft.wardnets.generators.WardNetGenerator;
+import com.codexcrafts.wardcraft.wardnets.generators.WardNetGeneratorEntity;
+
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntityAnimal;
 
 public class WardNets {
 	
@@ -17,7 +25,16 @@ public class WardNets {
 		
 		IWardNet generatorWardNet = new WardNetGenerator();
 		tempWardNets.put(generatorWardNet.getCorners(), generatorWardNet);
+		
+		addEntityGenerator(EntityMob.class, 1, 2, EnumWard.MOB, tempWardNets);
+		addEntityGenerator(EntityAnimal.class, 1, 2, EnumWard.ANIMAL, tempWardNets);
+		
 		return tempWardNets;
+	}
+	
+	private static void addEntityGenerator(Class entityClass, int fuelPerCycle, int damagePerCycle, EnumWard ward, HashMap<List<BasicWard>, IWardNet> tempWardNets){
+		IWardNet entityWardNet = new WardNetGeneratorEntity(entityClass, fuelPerCycle, damagePerCycle, ward);
+		tempWardNets.put(entityWardNet.getCorners(), entityWardNet);
 	}
 	
 	public static IWardNet getWardNet(List<BasicWard> corners){

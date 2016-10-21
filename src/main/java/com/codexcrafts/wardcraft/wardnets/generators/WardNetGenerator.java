@@ -1,4 +1,4 @@
-package com.codexcrafts.wardcraft.wardnets;
+package com.codexcrafts.wardcraft.wardnets.generators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,8 @@ import com.codexcrafts.wardcraft.block.BlockRegistry;
 import com.codexcrafts.wardcraft.block.ward.BasicWard;
 import com.codexcrafts.wardcraft.block.ward.EnumWard;
 import com.codexcrafts.wardcraft.block.ward.TileEntityKeyWard;
+import com.codexcrafts.wardcraft.wardnets.IWardNet;
+import com.codexcrafts.wardcraft.wardnets.IWardNetGenerator;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
