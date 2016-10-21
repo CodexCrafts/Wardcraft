@@ -15,7 +15,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class WardNetGenerator implements IWardNet {
+public class WardNetGenerator implements IWardNet, IWardNetGenerator {
 
 	private static List<BasicWard> wards;
 
@@ -35,11 +35,20 @@ public class WardNetGenerator implements IWardNet {
 
 	@Override
 	public void onUpdate(World world, BlockPos pos, int power) {
+		consumeFuel(world, pos, power);
+		chargeTarget(world, pos);
+	}
+
+	@Override
+	public int getUpdateCost() {
+		return 0;
+	}
+
+	@Override
+	public void consumeFuel(World world, BlockPos pos, int power) {
 		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class,
 				new AxisAlignedBB(pos.add(power * -1, 0, power * -1), pos.add(power, 1, power)));
-
 		TileEntity te = world.getTileEntity(pos);
-
 		if (te != null && te instanceof TileEntityKeyWard) {
 			for (EntityItem item : items) {
 				if (TileEntityFurnace.isItemFuel(item.getEntityItem())) {
@@ -51,9 +60,14 @@ public class WardNetGenerator implements IWardNet {
 					}
 				}
 			}
+		}
+	}
 
+	@Override
+	public void chargeTarget(World world, BlockPos pos) {
+		TileEntity te = world.getTileEntity(pos);
+		if (te != null && te instanceof TileEntityKeyWard) {
 			BlockPos target = ((TileEntityKeyWard) te).getTarget();
-
 			if (target != null) {
 				TileEntity targetTE = world.getTileEntity(target);
 				if (targetTE != null && targetTE instanceof TileEntityKeyWard) {
@@ -66,12 +80,6 @@ public class WardNetGenerator implements IWardNet {
 				}
 			}
 		}
-
-	}
-
-	@Override
-	public int getUpdateCost() {
-		return 0;
 	}
 
 }

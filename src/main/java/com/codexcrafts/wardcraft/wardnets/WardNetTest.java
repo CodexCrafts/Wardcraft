@@ -31,7 +31,7 @@ public class WardNetTest implements IWardNet {
 
 	@Override
 	public void onUpdate(World world, BlockPos pos, int power) {
-		System.out.println("Updating wardnet");
+		//System.out.println("Updating wardnet");
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package com.codexcrafts.wardcraft.item.glasses;
 import com.codexcrafts.wardcraft.WardcraftMain;
 import com.codexcrafts.wardcraft.block.ward.KeyWard;
 import com.codexcrafts.wardcraft.block.ward.TileEntityKeyWard;
+import com.codexcrafts.wardcraft.wardnets.IWardNet;
+import com.codexcrafts.wardcraft.wardnets.IWardNetGenerator;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,16 +48,23 @@ public class ItemWardedFocus extends Item {
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
-		if (hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote) {
+		if (hand.equals(EnumHand.MAIN_HAND)) {
 			Block clicked = worldIn.getBlockState(pos).getBlock();
 			if (clicked instanceof KeyWard) {
+				TileEntity clickedTE = worldIn.getTileEntity(pos);
+				IWardNet clickedWardNet = ((TileEntityKeyWard) clickedTE).getWardNet();
 				if (stack.getTagCompound() == null) {
 					stack.setTagCompound(new NBTTagCompound());
 				}
 				if (playerIn.isSneaking()) {
-					stack.getTagCompound().setIntArray("generator", new int[] { pos.getX(), pos.getY(), pos.getZ() });
-					displayMessageToPlayer(playerIn,
-							"Setting generator to : " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()+".");
+					if (clickedTE instanceof TileEntityKeyWard) {
+						if (clickedWardNet != null && clickedWardNet instanceof IWardNetGenerator) {
+							stack.getTagCompound().setIntArray("generator",
+									new int[] { pos.getX(), pos.getY(), pos.getZ() });
+							displayMessageToPlayer(playerIn, "Setting generator to : " + pos.getX() + ", " + pos.getY()
+									+ ", " + pos.getZ() + ".");
+						}
+					}
 				} else {
 					int[] coords = stack.getTagCompound().getIntArray("generator");
 					if (coords != null) {
@@ -63,8 +72,10 @@ public class ItemWardedFocus extends Item {
 						TileEntity te = worldIn.getTileEntity(targetPos);
 
 						if (te instanceof TileEntityKeyWard) {
-							((TileEntityKeyWard) te).setTarget(pos);
-							displayMessageToPlayer(playerIn, "Linking Key Ward with generator.");
+							if (clickedWardNet != null && !(clickedWardNet instanceof IWardNetGenerator)) {
+								((TileEntityKeyWard) te).setTarget(pos);
+								displayMessageToPlayer(playerIn, "Linking Key Ward with generator.");
+							}
 						}
 					}
 				}
@@ -74,6 +85,8 @@ public class ItemWardedFocus extends Item {
 	}
 
 	private void displayMessageToPlayer(EntityPlayer player, String msg) {
-		player.addChatComponentMessage(new TextComponentString(msg));
+		if (player.worldObj.isRemote) {
+			player.addChatComponentMessage(new TextComponentString(msg));
+		}
 	}
 }
