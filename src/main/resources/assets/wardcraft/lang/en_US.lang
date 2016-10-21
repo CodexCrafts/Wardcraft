@@ -1,6 +1,7 @@
 item.item_debug.name=Debugging Item
 item.item_warded_lense.name=Warded Lense
 item.item_warded_glasses.name=Warded Glasses
+item.item_warded_focus.name=Warded Focus
 tile.block_debug.name=Debugging Block
 itemGroup.wardcraft_tab=Wardcraft
 tile.block_ward_air.name=Air Ward

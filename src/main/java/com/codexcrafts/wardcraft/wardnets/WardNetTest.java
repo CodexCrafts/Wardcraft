@@ -36,7 +36,7 @@ public class WardNetTest implements IWardNet {
 
 	@Override
 	public int getUpdateCost() {
-		return 0;
+		return 2;
 	}
 
 }

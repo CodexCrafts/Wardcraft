@@ -38,12 +38,12 @@ public class WardNetGenerator implements IWardNet {
 		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class,
 				new AxisAlignedBB(pos.add(power * -1, 0, power * -1), pos.add(power, 1, power)));
 
-		for (EntityItem item : items) {
-			if (TileEntityFurnace.isItemFuel(item.getEntityItem())) {
-				TileEntity te = world.getTileEntity(pos);
+		TileEntity te = world.getTileEntity(pos);
 
-				if (te != null && te instanceof TileEntityKeyWard) {
-					((TileEntityKeyWard) te).addCharge(TileEntityFurnace.getItemBurnTime(item.getEntityItem())/100);
+		if (te != null && te instanceof TileEntityKeyWard) {
+			for (EntityItem item : items) {
+				if (TileEntityFurnace.isItemFuel(item.getEntityItem())) {
+					((TileEntityKeyWard) te).addCharge(TileEntityFurnace.getItemBurnTime(item.getEntityItem()) / 100);
 					if (item.getEntityItem().stackSize > 1) {
 						item.getEntityItem().stackSize--;
 					} else {
@@ -51,7 +51,22 @@ public class WardNetGenerator implements IWardNet {
 					}
 				}
 			}
+
+			BlockPos target = ((TileEntityKeyWard) te).getTarget();
+
+			if (target != null) {
+				TileEntity targetTE = world.getTileEntity(target);
+				if (targetTE != null && targetTE instanceof TileEntityKeyWard) {
+					int removed = ((TileEntityKeyWard) te).removeCharge(4);
+					if (removed > 0) {
+						((TileEntityKeyWard) targetTE).addCharge(removed);
+					}
+				} else {
+					((TileEntityKeyWard) te).setTarget(null);
+				}
+			}
 		}
+
 	}
 
 	@Override

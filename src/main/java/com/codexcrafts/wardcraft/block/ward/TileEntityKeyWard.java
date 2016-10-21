@@ -19,6 +19,7 @@ import scala.actors.threadpool.Arrays;
 
 public class TileEntityKeyWard extends TileEntity implements ITickable {
 
+	private BlockPos target;
 	private int power;
 	private Block corner1, corner2, corner3, corner4;
 	private int counter = 0;
@@ -112,10 +113,31 @@ public class TileEntityKeyWard extends TileEntity implements ITickable {
 	public void addCharge(int amount) {
 		this.charge += amount;
 	}
+	
+	public int removeCharge(int amount){
+		if(amount <= charge){
+			charge -= amount;
+			return amount;
+		}
+		int tempCharge = charge;
+		charge = 0;
+		return tempCharge;
+	}
+	
+	public void setTarget(BlockPos target){
+		this.target = target;
+	}
+	
+	public BlockPos getTarget(){
+		return this.target;
+	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		compound.setInteger("charge", charge);
+		if(this.target != null){
+			compound.setIntArray("target", new int[]{target.getX(), target.getY(), target.getZ()});
+		}
 		return super.writeToNBT(compound);
 	}
 
@@ -123,6 +145,10 @@ public class TileEntityKeyWard extends TileEntity implements ITickable {
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		this.charge = compound.getInteger("charge");
+		int[] coords = compound.getIntArray("target");
+		if(coords.length > 0){
+			this.target = new BlockPos(coords[0], coords[1], coords[2]);
+		}
 	}
 
 }
